@@ -2,12 +2,15 @@ require("dotenv").config();
 var axios = require("axios");
 
 var keys = require("./keys.js");
-// var spotify = new spotify(keys.spotify);
+var Spotify = require('node-spotify-api');
+
+console.log(keys);
+var spotify = new Spotify(keys.spotify);
 
 var fs = require("fs");
 
 var command = process.argv[2];
-var input = process.argv[3];
+var input = process.argv.slice(3).join(' ');
 
 if (command == 'concert-this'){
     var queryUrl = "https://rest.bandsintown.com/artists/" + input + "/events?app_id=codingbootcamp";
@@ -18,6 +21,7 @@ if (command == 'concert-this'){
 
     axios.get(queryUrl).then(
         function(response){
+            debugger;
             console.log(response);
         // console.log("Venue Name: " + response.data);
         }
@@ -37,9 +41,14 @@ if (command == 'concert-this'){
     })
 
 } 
-// else if (command == 'spotify-this-song'){
-
-// } 
+else if (command == 'spotify-this-song'){
+    spotify.search({ type: 'track', query: input }, function(err, data) {
+      if (err) {
+        return console.log('Error occurred: ' + err);
+      }
+    console.log(data); 
+    });
+} 
 else if (command == 'movie-this'){
     var queryUrl = "http://www.omdbapi.com/?t=" + input + "&y=&plot=short&apikey=trilogy";
 
