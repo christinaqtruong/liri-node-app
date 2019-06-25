@@ -15,15 +15,12 @@ var input = process.argv.slice(3).join(' ');
 if (command == 'concert-this'){
     var queryUrl = "https://rest.bandsintown.com/artists/" + input + "/events?app_id=codingbootcamp";
 
-    console.log(input);
-
-    console.log(queryUrl);
 
     axios.get(queryUrl).then(
         function(response){
-            debugger;
-            console.log(response);
-        // console.log("Venue Name: " + response.data);
+        console.log("Venue Name: " + response.data[0].venue.name);
+        console.log("Venue Location: " + response.data[0].venue.city + ", " + response.data[0].venue.country);
+        console.log("Concert Date: " + response.data[0].datetime);
         }
     ).catch(function(error){
         if (error.response) {
@@ -46,7 +43,12 @@ else if (command == 'spotify-this-song'){
       if (err) {
         return console.log('Error occurred: ' + err);
       }
-    console.log(data); 
+      console.log(JSON.stringify(data.tracks.items[0].album, null, 2));
+
+        console.log("Artist: " + data.tracks.items[0].artists[0].name); 
+        console.log("Song Name: " + data.tracks.items[0].name); 
+        console.log("Preview: " + data.tracks.items[0].artists[0].external_urls.spotify); 
+        console.log("Album: " + data.tracks.items[0].album.name); 
     });
 } 
 else if (command == 'movie-this'){
@@ -79,13 +81,19 @@ else if (command == 'movie-this'){
     })
     
 } else if (command == 'do-what-it-says'){
-    fs.readFile("random.txt", "utf8", function(error, data){
+    fs.readFile("random.txt", "utf8", function(error, text){
         if (error){
             return console.log(error);
         }
-        console.log(data);
-
-
         
-    })
-} 
+        spotify.search({ type: 'track', query: text}, function(err, data) {
+            if (err) {
+              return console.log('Error occurred: ' + err);
+            }
+          console.log(query);
+          console.log("Artist: " + data.tracks.items[0].artists[0].name); 
+          console.log("Song Name: " + data.tracks.items[0].name); 
+          console.log("Artist: " + data.tracks.items[0].artists[0].name); 
+        });
+    });
+}
