@@ -98,12 +98,12 @@ function defaultSpotify() {
     }
     //   console.log(JSON.stringify(data.tracks.items[0].album, null, 2));
 
-    console.log("Artist: " + data.tracks.items[0].artists[0].name);
-    console.log("Song Name: " + data.tracks.items[0].name);
+    console.log("Artist: " + data.tracks.items[3].artists[0].name);
+    console.log("Song Name: " + data.tracks.items[3].name);
     console.log(
-      "Preview: " + data.tracks.items[0].artists[0].external_urls.spotify
+      "Preview: " + data.tracks.items[3].artists[0].external_urls.spotify
     );
-    console.log("Album: " + data.tracks.items[0].album.name);
+    console.log("Album: " + data.tracks.items[3].album.name);
   });
 }
 
