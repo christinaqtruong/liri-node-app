@@ -17,8 +17,10 @@ var input = process.argv.slice(3).join(" ");
 function liri() {
   if (command == "concert-this") {
     concertThis();
-  } else if (command == "spotify-this-song") {
+  } else if (command == "spotify-this-song" && input) {
     spotifyThis();
+  } else if (command == "spotify-this-song" && !input) {
+    defaultSpotify();
   } else if (command == "movie-this" && input) {
     movieThis();
   } else if (command == "movie-this" && !input) {
@@ -75,6 +77,22 @@ function liri() {
 
 function spotifyThis() {
   spotify.search({ type: "track", query: input }, function(err, data) {
+    if (err) {
+      return console.log("Error occurred: " + err);
+    }
+    //   console.log(JSON.stringify(data.tracks.items[0].album, null, 2));
+    console.log(input);
+    console.log("Artist: " + data.tracks.items[0].artists[0].name);
+    console.log("Song Name: " + data.tracks.items[0].name);
+    console.log(
+      "Preview: " + data.tracks.items[0].artists[0].external_urls.spotify
+    );
+    console.log("Album: " + data.tracks.items[0].album.name);
+  });
+}
+
+function defaultSpotify() {
+  spotify.search({ type: "track", query: "The Sign" }, function(err, data) {
     if (err) {
       return console.log("Error occurred: " + err);
     }
